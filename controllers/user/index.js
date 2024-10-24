@@ -15,10 +15,9 @@ const create = routeHandler(async (req, res, extras) => {
 		email,
 		role_id,
 		per_sms_price,
-		mask,
 	} = req.body;
 
-	if (isNull([first_name, last_name, mobile, email, per_sms_price, mask, role_id])) {
+	if (isNull([first_name, last_name, mobile, email, per_sms_price, role_id])) {
 		return sendAppError(extras, NO_PARAMS, STATUS_CODE.BAD_REQUEST)
 	}
 
@@ -53,7 +52,6 @@ const create = routeHandler(async (req, res, extras) => {
 		last_name,
 		mobile,
 		email,
-		mask,
 		per_sms_price,
 		password: "kelaxa@123",
 		role_id: findRole.role_id,
@@ -109,7 +107,7 @@ const getById = routeHandler(async (req, res, extras) => {
 
 const updateById = routeHandler(async (req, res, extras) => {
 	const { user_id } = req.params;
-	const { first_name, last_name, mobile, email, password, password_confirm, per_sms_price, mask, } = req.body;
+	const { first_name, last_name, mobile, email, password, password_confirm, per_sms_price, } = req.body;
 
 	if (password && password.length < 8) {
 		return sendAppError(extras, "Please choose a longer password", STATUS_CODE.BAD_REQUEST)

@@ -20,9 +20,7 @@ app.use(paginationHandler);
 app.use("/storage", express.static('storage'));
 app.use("/public", express.static('public'));
 app.use("/api/v1", apiRoutes);
-app.use("/webhook/v1", express.raw({ type: 'application/json' }), webhookRoutes);
-// app.post("/webhook/stripe", express.raw({ type: 'application/json' }), stripeWebhook);
-
+app.use("/webhook/v1", webhookRoutes);
 
 //Error Handle for unknown requests
 app.all("*", (req, res, next) => {

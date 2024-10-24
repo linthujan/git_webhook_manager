@@ -22,10 +22,6 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      mask: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
       password_hash: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -43,10 +39,6 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         allowNull: false,
         defaultValue: false
-      },
-      per_sms_price: {
-        type: Sequelize.DOUBLE(25, 2),
-        allowNull: false,
       },
       role_id: relationShip({
         modelName: "roles",

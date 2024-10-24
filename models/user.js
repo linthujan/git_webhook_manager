@@ -35,10 +35,6 @@ module.exports = (sequelize, DataTypes) => {
         isEmail: true
       }
     },
-    mask: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     password: {
       type: DataTypes.VIRTUAL,
       set(val) {
@@ -62,10 +58,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false
-    },
-    per_sms_price: {
-      type: DataTypes.DOUBLE(25, 2),
-      allowNull: false,
     },
   }, modelDefaults(sequelize, 'users'));
   return User;
