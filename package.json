@@ -1,0 +1,39 @@
+{
+  "name": "deploy_manager",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "db:dev": "sequelize db:drop --env development & sequelize  db:create --env development & sequelize  db:migrate --env development --debug",
+    "db:test": "sequelize db:drop --env test & sequelize db:create --env test & sequelize db:migrate --env test --debug",
+    "db:prod": "sequelize db:drop --env production & sequelize db:create --env production & sequelize db:migrate --env production --debug",
+    "db:local": "sequelize db:drop --env local & sequelize db:create --env local & sequelize db:migrate --env local --debug",
+    "seed:dev": "sequelize db:seed:undo:all --env development & sequelize db:seed:all --env development --debug",
+    "seed:test": "sequelize db:seed:undo:all --env test & sequelize db:seed:all --env test --debug",
+    "seed:prod": "sequelize db:seed:undo:all --env production & sequelize db:seed:all --env production --debug",
+    "seed:local": "sequelize db:seed:undo:all --env local & sequelize db:seed:all --env local --debug"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@ngrok/ngrok": "^1.4.1",
+    "axios": "^1.6.7",
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.1",
+    "express": "^4.18.2",
+    "google-auth-library": "^9.6.2",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.9.1",
+    "nodemailer": "^6.9.9",
+    "sequelize": "^6.36.0"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "nodemon": "^3.1.0",
+    "sequelize-cli": "^6.6.2"
+  }
+}

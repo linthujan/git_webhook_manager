@@ -1,0 +1,30 @@
+{
+  "development": {
+    "username": "kelaxa",
+    "password": "kelaxa@123",
+    "database": "deploy_manager",
+    "host": "192.168.1.33",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "kelaxa",
+    "password": "kelaxa@123",
+    "database": "deploy_manager",
+    "host": "192.168.1.33",
+    "dialect": "mysql"
+  },
+  "local": {
+    "username": "root",
+    "password": "",
+    "database": "deploy_manager",
+    "host": "localhost",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": "",
+    "database": "deploy_manager",
+    "host": "192.46.225.22",
+    "dialect": "mysql"
+  }
+}
