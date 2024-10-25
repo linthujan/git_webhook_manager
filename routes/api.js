@@ -23,6 +23,7 @@ const permissionController = require("../controllers/permission");
 const roleController = require("../controllers/role");
 const versionController = require("../controllers/version");
 const settingController = require("../controllers/setting");
+const projectController = require("../controllers/project");
 
 //  Routes
 
@@ -73,6 +74,15 @@ router.route("/role/:role_id")
     .get(jwtAuth, roleController.getById)
     .put(jwtAuth, roleController.updateById)
     .delete(jwtAuth, roleController.deleteById);
+
+// Project
+router.route("/project")
+    .post(projectController.create)
+    .get(projectController.getAll);
+router.route("/project/:project_id")
+    .get(projectController.getById)
+    .put(projectController.updateById)
+    .delete(projectController.deleteById);
 
 // RolePermission
 router.route("/role/:role_id/permission")

@@ -12,9 +12,14 @@ const db = {};
 console.log("Environment :", env);
 console.log("Database host :", config.host);
 console.log("Database name :", config.database);
-const sequelize = new Sequelize(config.database, config.username, config.password, {
-  ...config,
-  log: true,
+// const sequelize = new Sequelize(config.database, config.username, config.password, {
+//   ...config,
+//   log: true,
+// });
+
+const sequelize = new Sequelize({
+  dialect: 'sqlite',
+  storage: './database.sqlite'
 });
 
 fs.readdirSync(__dirname).filter(file => {
@@ -34,12 +39,17 @@ db.Setting = require("../models/setting")(sequelize, Sequelize.DataTypes)
 db.Role = require("../models/role")(sequelize, Sequelize.DataTypes)
 db.Permission = require("../models/permission")(sequelize, Sequelize.DataTypes)
 db.RolePermission = require("../models/role_permission")(sequelize, Sequelize.DataTypes)
+db.Project = require("../models/project")(sequelize, Sequelize.DataTypes)
 
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
     db[modelName].associate(db);
   }
 });
+
+// sequelize.sync({ force: true }).then(() => {
+//   console.log('All models were synchronized successfully.');
+// });
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
