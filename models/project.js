@@ -27,6 +27,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    repository_id: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     git_url: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -36,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     command: {
-      type: DataTypes.JSON,
+      type: DataTypes.TEXT,
       allowNull: false,
       unique: true,
     },

@@ -19,7 +19,7 @@ const create = routeHandler(async (req, res, extras) => {
 		command,
 	} = req.body;
 
-	if (isNull([type, branch, path, git_url, command,])) {
+	if (isNull([type, branch, path, git_url])) {
 		return sendAppError(extras, NO_PARAMS, STATUS_CODE.BAD_REQUEST)
 	}
 
@@ -90,6 +90,7 @@ const create = routeHandler(async (req, res, extras) => {
 		type,
 		branch,
 		path,
+		repository_id: repositoryResponse.data.id,
 		git_url,
 		secret,
 		command,
@@ -100,14 +101,14 @@ const create = routeHandler(async (req, res, extras) => {
 });
 
 const getAll = routeHandler(async (req, res, extras) => {
-	const users = await User.findAll({
+	const projects = await Project.findAll({
 		...req.paginate,
 	});
 
-	return res.sendRes(users, {
-		message: 'Users loaded successfully',
+	return res.sendRes(projects, {
+		message: 'Projects loaded successfully',
 		...req.meta,
-		total: await User.count(),
+		total: await Project.count(),
 		status: STATUS_CODE.OK,
 	});
 }, false);
