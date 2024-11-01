@@ -24,6 +24,8 @@ app.use("/webhook/v1", webhookRoutes);
 
 //Error Handle for unknown requests
 app.all("*", (req, res, next) => {
+  console.log(`Request => method : ${req.method}, path : ${req.path}, auth : ${req.auth?.username ?? 'No Auth'}`);
+
   res.status(403).send(ERROR_PAGE);
 });
 
