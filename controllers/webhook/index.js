@@ -35,13 +35,11 @@ const repositoryHook = routeHandler(async (req, res, extras) => {
     const branch = ref.split('/').pop();
     console.log(`Pushed to branch ${branch}`);
 
-    project.command.map(x => {
-        x = renderTextWithVariable(x, {
-            PROCESS_NAME: project.name,
-        });
-    })
+    const commands = project.command.map(x => renderTextWithVariable(x, { PROCESS_NAME: project.name, }));
 
-    await executeCommands(project.command);
+    console.log(commands);
+
+    await executeCommands(commands);
 
     return res.sendRes(null, { message: 'Ok', status: STATUS_CODE.OK });
 }, false);
