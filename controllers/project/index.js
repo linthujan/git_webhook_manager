@@ -19,7 +19,7 @@ const create = routeHandler(async (req, res, extras) => {
 		command,
 	} = req.body;
 
-	if (isNull([type, branch, path, git_url])) {
+	if (isNull([type, branch, path, git_url, command])) {
 		return sendAppError(extras, NO_PARAMS, STATUS_CODE.BAD_REQUEST)
 	}
 
@@ -140,56 +140,49 @@ const getById = routeHandler(async (req, res, extras) => {
 }, false);
 
 const updateById = routeHandler(async (req, res, extras) => {
-	const { user_id } = req.params;
-	const { first_name, last_name, mobile, email, password, password_confirm, per_sms_price, } = req.body;
+	const { project_id } = req.params;
+	const { type, branch, path, git_url, command, } = req.body;
 
-	if (password && password.length < 8) {
-		return sendAppError(extras, "Please choose a longer password", STATUS_CODE.BAD_REQUEST)
+	const project = await Project.findOne({ where: { project_id, is_verified: true } });
+	if (!project) {
+		return sendAppError(extras, 'Project not found', STATUS_CODE.NOT_FOUND);
 	}
 
-	if (password != password_confirm) {
-		return sendAppError(extras, "Passwords did't match", STATUS_CODE.BAD_REQUEST)
+	if (isNull([type, branch, path, git_url, command])) {
+		return sendAppError(extras, NO_PARAMS, STATUS_CODE.BAD_REQUEST)
 	}
 
-	const user = await User.findOne({ where: { user_id, is_verified: true } });
-	if (!user) {
-		return sendAppError(extras, 'User not found', STATUS_CODE.NOT_FOUND);
-	}
-
-	if (email || mobile) {
-		const findUser = await User.findOne({
-			where: {
-				[Op.or]: [
-					mobile ? { mobile } : null,
-					email ? { email } : null,
-				],
-				is_verified: true,
-				user_id: {
-					[Op.not]: user_id,
-				}
+	const findProject = await Project.findOne({
+		where: {
+			[Op.or]: {
+				path,
+				git_url,
+			},
+			type,
+			project_id: {
+				[Op.not]: project_id,
 			}
-		});
+		},
+		paranoid: false,
+	});
 
-		if (findUser && findUser.mobile == mobile) {
-			return sendAppError(extras, "Mobile number already registered", STATUS_CODE.BAD_REQUEST);
-		}
-		if (findUser && findUser.email == email) {
-			return sendAppError(extras, "E-mail address already registered", STATUS_CODE.BAD_REQUEST);
-		}
+	if (findProject?.path == path) {
+		return sendAppError(extras, "Path already used by another project", STATUS_CODE.BAD_REQUEST);
+	}
+	if (findProject?.git_url == git_url) {
+		return sendAppError(extras, "GitHub url already used by another project", STATUS_CODE.BAD_REQUEST);
 	}
 
-	await user.update({
-		first_name,
-		last_name,
-		mobile,
-		email,
-		mask,
-		password,
-		per_sms_price,
+	await project.update({
+		type,
+		branch,
+		path,
+		git_url,
+		command,
 	}, { transaction: extras.transaction });
 
 	await extras.transaction.commit();
-	return res.sendRes(user, { message: 'User updated successfully', status: STATUS_CODE.OK });
+	return res.sendRes(project, { message: 'Project updated successfully', status: STATUS_CODE.OK });
 });
 
 const deleteById = routeHandler(async (req, res, extras) => {
