@@ -1,68 +1,42 @@
-const { spawn } = require('child_process');
+const { execFile, spawn } = require('child_process');
+const fs = require('fs');
+require('dotenv').config();
 
-// Run a command and stream output
-// const process = spawn('ping', ['google.com']);
+// Create a single command string that executes all commands in one shell
+const commands = "#!/bin/bash\n" + [
+    "cd /var/www/html/chat_app_api",
+    "ls",
+    `git pull https://linthujan:${process.env.GITHUB_SECRET}@github.com/linthujan/chat_app_api`,
+    "pm2 status",
+].join("&&\n");
 
-// process.stdout.on('data', (data) => {
-//     console.log(`Output: ${data}`);
-// });
+// Function to execute the command
+const executeCommands = () => {
 
-// process.stderr.on('data', (data) => {
-//     console.error(`Error: ${data}`);
-// });
+    console.log('Creating script file...');
+    fs.writeFileSync('./script.sh', commands);
 
-// process.on('close', (code) => {
-//     console.log(`Process exited with code: ${code}`);
-// });
+    console.log('Executing commands.....');
+    // const process = execFile('./script.sh');
 
-const { exec } = require('child_process');
+    // const process = spawn('bash', ['-c', commands]);
+    const process = spawn('./script.sh');
 
-const commands = [
-    `cd /var/www/html`,
-    `pwd`,
-];
+    process.stdout.on('data', (data) => {
+        console.log(`Output: ${data}`);
+    });
+    process.stdout.on('error', (data) => {
+        console.log(`Output Error: ${data}`);
+    });
 
-exec(commands.join(' && '), [], (error, stdout, stderr) => {
-    if (error) {
-        console.log(`error: ${error.message}`);
-        return;
-    }
-    if (stderr) {
-        console.log(`stderr: ${stderr}`);
-        return;
-    }
+    process.on('exit', (code) => {
+        console.log(`Command exited with code: ${code}`);
+        if (code === 0) {
+            console.log('All commands executed successfully.');
+        } else {
+            console.error('Some commands failed.');
+        }
+    });
+};
 
-    console.log(`stdout: ${stdout}`);
-});
-
-
-// function runCommand(index = 0) {
-//     if (index >= commands.length) return; // Stop if all commands have run
-
-//     const command = commands[index];
-//     // Using 'cmd.exe' for Windows or 'bash' for Linux/Mac
-//     const shell = process.platform === "win32" ? "cmd.exe" : "bash";
-//     const shellArgs = process.platform === "win32" ? ["/c", command] : ["-c", command];
-
-//     const processX = spawn(shell, shellArgs, { shell: true });
-
-//     processX.stdout.on("data", (data) => {
-//         console.log(`stdout (command ${index + 1}): ${data}`);
-//     });
-
-//     processX.stderr.on("data", (data) => {
-//         console.error(`stderr (command ${index + 1}): ${data}`);
-//     });
-
-//     processX.on("close", (code) => {
-//         if (code === 0) {
-//             console.log(`Command ${index + 1} completed successfully.`);
-//             runCommand(index + 1); // Run the next command
-//         } else {
-//             console.error(`Command ${index + 1} failed with code ${code}`);
-//         }
-//     });
-// }
-
-// Start the sequence
-// runCommand();
+executeCommands();
