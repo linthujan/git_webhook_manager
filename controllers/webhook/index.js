@@ -4,6 +4,7 @@ const { sendAppError } = require("../../lib/appError");
 const routeHandler = require("../../lib/routeHandler");
 const crypto = require("node:crypto");
 const { executeCommands } = require("../../services/script");
+const { renderTextWithVariable } = require("../../lib/helper");
 
 function verifySignature(req, secret) {
     const payload = JSON.stringify(req.body);
@@ -33,6 +34,12 @@ const repositoryHook = routeHandler(async (req, res, extras) => {
 
     const branch = ref.split('/').pop();
     console.log(`Pushed to branch ${branch}`);
+
+    project.commands.map(x => {
+        x = renderTextWithVariable(x, {
+            PROCESS_NAME: project.name,
+        });
+    })
 
     await executeCommands(project.commands);
 
