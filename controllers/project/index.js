@@ -143,7 +143,7 @@ const updateById = routeHandler(async (req, res, extras) => {
 	const { project_id } = req.params;
 	const { type, branch, path, git_url, command, } = req.body;
 
-	const project = await Project.findOne({ where: { project_id, is_verified: true } });
+	const project = await Project.findOne({ where: { project_id } });
 	if (!project) {
 		return sendAppError(extras, 'Project not found', STATUS_CODE.NOT_FOUND);
 	}
