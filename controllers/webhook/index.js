@@ -1,11 +1,8 @@
-const { Setting, Project } = require("../../models");
+const { Project } = require("../../models");
 const { STATUS_CODE } = require("../../lib/utility");
 const { sendAppError } = require("../../lib/appError");
-const { isNull } = require("../../lib/validation");
-const { NO_PARAMS } = require("../../lib/errorMessage");
 const routeHandler = require("../../lib/routeHandler");
 const crypto = require("node:crypto");
-const { exec } = require("node:child_process");
 const { executeCommands } = require("../../services/script");
 
 function verifySignature(req, secret) {

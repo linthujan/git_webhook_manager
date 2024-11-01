@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     command: {
-      type: DataTypes.TEXT,
+      type: DataTypes.JSON,
       allowNull: false,
       unique: true,
     },
