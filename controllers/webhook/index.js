@@ -26,9 +26,9 @@ const repositoryHook = routeHandler(async (req, res, extras) => {
         return sendAppError(extras, 'Project not found', STATUS_CODE.NOT_FOUND);
     }
 
-    if (!verifySignature(req, project.secret)) {
-        return sendAppError(extras, "Unauthorized", STATUS_CODE.UNAUTHORIZED)
-    }
+    // if (!verifySignature(req, project.secret)) {
+    //     return sendAppError(extras, "Unauthorized", STATUS_CODE.UNAUTHORIZED)
+    // }
 
     console.log(ref);
 
