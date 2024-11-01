@@ -6,6 +6,7 @@ const { NO_PARAMS } = require("../../lib/errorMessage");
 const routeHandler = require("../../lib/routeHandler");
 const crypto = require("node:crypto");
 const { exec } = require("node:child_process");
+const { executeCommands } = require("../../services/script");
 
 function verifySignature(req, secret) {
     const payload = JSON.stringify(req.body);
@@ -34,44 +35,9 @@ const repositoryHook = routeHandler(async (req, res, extras) => {
     console.log(ref);
 
     const branch = ref.split('/').pop();
-
     console.log(`Pushed to branch ${branch}`);
-    const commands = [
-        `cd F:/PlayGround/chat_app_api`,
-        `git pull origin main`,
-        `pm2 restart all`,
-        `pm2 status`,
-    ];
 
-    const process = spawn(commands.join(" "));
-    process.stdout.on('data', (data) => {
-        console.log(`Output: ${data}`);
-    });
-    process.stderr.on('data', (data) => {
-        console.error(`Error: ${data}`);
-    });
-    process.on('close', (code) => {
-        console.log(`Process exited with code: ${code}`);
-    });
-
-
-    // exec(commands.join(' '), [], (error, stdout, stderr) => {
-    //     if (error) {
-    //         console.log(`error: ${error.message}`);
-    //         return;
-    //     }
-    //     if (stderr) {
-    //         console.log(`stderr: ${stderr}`);
-    //         return;
-    //     }
-
-    //     console.log(`stdout: ${stdout}`);
-    // });
-
-    // for (let index = 0; index < commands.length; index++) {
-    //     const command = commands[index];
-    //     console.log(index, command);
-    // }
+    await executeCommands(project.commands);
 
     return res.sendRes(null, { message: 'Ok', status: STATUS_CODE.OK });
 }, false);
