@@ -42,7 +42,6 @@ module.exports = (sequelize, DataTypes) => {
     command: {
       type: DataTypes.JSON,
       allowNull: false,
-      unique: true,
     },
   }, modelDefaults(sequelize, 'projects'));
   return Project;

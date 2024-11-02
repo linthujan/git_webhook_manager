@@ -12,14 +12,10 @@ const db = {};
 console.log("Environment :", env);
 console.log("Database host :", config.host);
 console.log("Database name :", config.database);
-// const sequelize = new Sequelize(config.database, config.username, config.password, {
-//   ...config,
-//   log: true,
-// });
 
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: './database.sqlite'
+const sequelize = new Sequelize(config.database, config.username, config.password, {
+  ...config,
+  log: true,
 });
 
 fs.readdirSync(__dirname).filter(file => {
