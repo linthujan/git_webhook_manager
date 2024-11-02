@@ -55,7 +55,7 @@ const create = routeHandler(async (req, res, extras) => {
 		}
 	});
 
-	const branchResponse = await axios.get(`${GITHUB_API}/${owner}/${repo}/branches`, {
+	const branchResponse = await axios.get(`${GITHUB_API}/${owner}/${repo}/branches?per_page=10000`, {
 		headers: {
 			Authorization: `Bearer ${GITHUB_SECRET}`,
 			'X-GitHub-Api-Version': '2022-11-28'
