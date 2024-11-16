@@ -2,28 +2,28 @@
   "development": {
     "username": "kelaxa",
     "password": "kelaxa@123",
-    "database": "deploy_manager",
+    "database": "git_webhook_manager",
     "host": "192.168.1.33",
     "dialect": "mysql"
   },
   "test": {
     "username": "kelaxa",
     "password": "kelaxa@123",
-    "database": "deploy_manager",
+    "database": "git_webhook_manager",
     "host": "192.168.1.33",
     "dialect": "mysql"
   },
   "local": {
     "username": "root",
     "password": "",
-    "database": "deploy_manager",
+    "database": "git_webhook_manager",
     "host": "localhost",
     "dialect": "mysql"
   },
   "production": {
     "username": "kelaxa",
     "password": "kelaxa@123",
-    "database": "deploy_manager",
+    "database": "git_webhook_manager",
     "host": "192.168.1.33",
     "dialect": "mysql"
   }
